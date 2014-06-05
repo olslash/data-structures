@@ -35,7 +35,7 @@ HashTable.prototype.remove = function(k){
 
 HashTable.prototype.hashSize = function(){
   //get the size
-  var keyTally;
+  var keyTally = 0;
   this._storage.each(function(e){
     if(e){
       keyTally++;
@@ -46,11 +46,17 @@ HashTable.prototype.hashSize = function(){
 };
 
 HashTable.prototype.checkExpansionNeeded = function(){
+  var ceil = Math.floor(this._limit * 0.75);
 
+  return this.hashSize() >= ceil;
 };
 
 HashTable.prototype.checkContractionNeeded = function(){
+  var minimumSize = 8;
 
+  var floor = Math.floor(this._limit * 0.25);
+
+  return this._limit > minimumSize ? this.hashSize() <= floor : false;
 };
 
 /*

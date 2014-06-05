@@ -29,20 +29,51 @@ describe('hashTable', function() {
     expect(hashTable.retrieve('Steven')).to.equal(null);
   });
 
+  var oldHashFunction = window.getIndexBelowMaxForKey;
+
+  var breakHashFunction = function(index) {
+    window.getIndexBelowMaxForKey = function() { return index; };
+  };
+
+  var restoreHashFunction = function() {
+    window.getIndexBelowMaxForKey = oldHashFunction;
+  };
+
+
   it('should handle hash function collisions', function(){
     var v1 = "val1";
     var v2 = "val2";
-    var oldHashFunction = window.getIndexBelowMaxForKey;
-    window.getIndexBelowMaxForKey = function() { return 0; };
+
+    breakHashFunction(0);
+
     hashTable.insert(v1, v1);
     hashTable.insert(v2, v2);
+
     expect(hashTable.retrieve(v1)).to.equal(v1);
     expect(hashTable.retrieve(v2)).to.equal(v2);
-    window.getIndexBelowMaxForKey = oldHashFunction;
+
+    restoreHashFunction();
+  });
+
+  it('should report the correct size', function(){
+    expect(hashTable.hashSize()).to.equal(0);
+
+    breakHashFunction(0);
+
+    hashTable.insert(people[1][0],people[1][1]);
+    hashTable.insert(people[2][0],people[2][1]);
+    expect(hashTable.hashSize()).to.equal(1);
+
+    breakHashFunction(1);
+
+    hashTable.insert(people[0][0],people[0][1]);
+    expect(hashTable.hashSize()).to.equal(2);
+
+    restoreHashFunction();
   });
 
   // (Extra credit! Remove the extra "x" when you want the following tests to run)
-  xit('should double in size when needed', function() {
+  it('should double in size when needed', function() {
     _.each(people, function(person) {
       var firstName = person[0], lastName = person[1];
       hashTable.insert(firstName,lastName);
@@ -50,7 +81,7 @@ describe('hashTable', function() {
     expect(hashTable._limit).to.equal(16);
   });
 
-  xit('should halve in size when needed', function() {
+  it('should halve in size when needed', function() {
     _.each(people, function(person) {
       var firstName = person[0], lastName = person[1];
       hashTable.insert(firstName,lastName);
