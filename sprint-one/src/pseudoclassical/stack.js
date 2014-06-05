@@ -29,7 +29,7 @@
   var start = Date.now();
 
   var stack = new Stack();
-  for (var i = 0; i<1000000; i++) {
+  for (var i = 0; i<time; i++) {
     stack.push(i);
     stack.pop();
   }
