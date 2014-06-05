@@ -3,20 +3,6 @@
 
 <script src = '../lib/underscore/underscore.js'></script>
 <script src = 'src/functional/stack.js'></script>
-<script>
-  (function perf() {
-    var start = Date.now();
 
-
-    var stack = makeStack();
-    for (var i = 0; i<1000000; i++) {
-      stack.push(i);
-      stack.pop();
-    }
-
-    console.log('functional: ' + (Date.now() - start));
-  })();
-
-</script>
 </body>
 </html>
