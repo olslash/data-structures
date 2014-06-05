@@ -1,4 +1,4 @@
-(function(){
+var pseudoStack = (function a(){
   var Stack = function() {
     // Hey! Rewrite in the new style. Your code will wind up looking very similar,
     // but try not not reference your old code in writing the new style.
@@ -27,14 +27,14 @@
   };
 
   var start = Date.now();
-
-  var stack = new Stack();
+  var stack;
   for (var i = 0; i<time; i++) {
+    stack = new Stack();
     stack.push(i);
     stack.pop();
   }
 
   console.log('pseudoclassical: ' + (Date.now() - start));
-
+  return Stack;
 })();
 

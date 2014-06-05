@@ -34,8 +34,9 @@
   var start = Date.now();
 
 
-  var stack = makeStack();
+  var stack;
   for (var i = 0; i<time; i++) {
+    stack = makeStack();
     stack.push(i);
     stack.pop();
   }
