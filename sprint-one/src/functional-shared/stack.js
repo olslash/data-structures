@@ -1,4 +1,5 @@
-var makeStack = function() {
+(function (){
+  var makeStack = function() {
   // Hey! Rewrite in the new style. Your code will wind up looking very similar,
   // but try not not reference your old code in writing the new style.
   var newStack = {};
@@ -8,20 +9,20 @@ var makeStack = function() {
   // newStack.size = stackMethods.size;
 
   return newStack;
-};
+  };
 
-var stackMethods = {};
+  var stackMethods = {};
 
-stackMethods.size = function(){
+  stackMethods.size = function(){
   return this.storedSize;
-};
+  };
 
-stackMethods.push = function(item){
+  stackMethods.push = function(item){
   this.storage[this.storedSize] = item;
   this.storedSize++;
-};
+  };
 
-stackMethods.pop = function(){
+  stackMethods.pop = function(){
   if(this.storedSize > 0) {
     this.storedSize--;
     var storedItem = this.storage[this.storedSize];
@@ -29,4 +30,15 @@ stackMethods.pop = function(){
     return storedItem;
   }
   return undefined;
-};
+  };
+
+  var start = Date.now();
+
+  var stack = makeStack();
+  for (var i = 0; i<1000000; i++) {
+    stack.push(i);
+    stack.pop();
+  }
+
+  console.log('functional-shared: ' + (Date.now() - start));
+})();
