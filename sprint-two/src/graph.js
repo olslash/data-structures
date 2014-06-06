@@ -1,10 +1,21 @@
 var Graph = function(){
+  // Node format _nodes =
+  // {'puppies': {edges: {kittens: true}}, 'kittens': {edges: {puppies: true}}}
+  this._nodes = {};
+
 };
 
-Graph.prototype.addNode = function(newNode, toNode){
+var Node = function(){
+  this.edges = {};
+};
+
+Graph.prototype.addNode = function(newNodeId, toNodeId){
+  this._nodes[newNodeId] = new Node();
+
 };
 
 Graph.prototype.contains = function(node){
+  return this._nodes.hasOwnProperty(node);
 };
 
 Graph.prototype.removeNode = function(node){
