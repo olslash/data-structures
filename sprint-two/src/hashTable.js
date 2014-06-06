@@ -15,6 +15,11 @@ HashTable.prototype.insert = function(k, v){
   if(!valueList.hasOwnProperty(k)) {
     valueList[k] = v;
   }
+  console.log(this.hashSize());
+
+  if(this.checkExpansionNeeded()) {
+    this.expand();
+  }
 };
 
 HashTable.prototype.retrieve = function(k){
@@ -46,9 +51,33 @@ HashTable.prototype.hashSize = function(){
 };
 
 HashTable.prototype.checkExpansionNeeded = function(){
-  var ceil = Math.floor(this._limit * 0.75);
+  var ceil = Math.floor(this._limit * 0.50);
 
   return this.hashSize() >= ceil;
+};
+
+HashTable.prototype.expand = function(){
+  // todo: REFACTOR THIS
+  var newLimit = this._limit * 2;
+  var newStorage = makeLimitedArray(newLimit);
+
+  this._storage.each(function(e){
+    for (var k in e) {
+      var valueList;
+      var i = getIndexBelowMaxForKey(e, newLimit);
+      if(!newStorage.get(i)) {
+        newStorage.set(i, {});
+      }
+
+      valueList = newStorage.get(i);
+
+      if(!valueList.hasOwnProperty(k)) {
+        valueList[k] = e[k];
+      }
+    }
+  });
+  this._limit = newLimit;
+  this._storage = newStorage;
 };
 
 HashTable.prototype.checkContractionNeeded = function(){
