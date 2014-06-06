@@ -21,20 +21,45 @@ describe('binarySearchTree', function() {
   });
 
   it('should have a working "contains" method', function(){
-    binarySearchTree.insert(2);
     binarySearchTree.insert(3);
+    binarySearchTree.insert(8);
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(4);
     binarySearchTree.insert(7);
+    binarySearchTree.insert(20);
+    binarySearchTree.insert(6);
+    binarySearchTree.insert(10);
+    binarySearchTree.insert(25);
+
+    expect(binarySearchTree.contains(5)).to.equal(true);
+    expect(binarySearchTree.contains(3)).to.equal(true);
+    expect(binarySearchTree.contains(8)).to.equal(true);
+    expect(binarySearchTree.contains(2)).to.equal(true);
+    expect(binarySearchTree.contains(4)).to.equal(true);
     expect(binarySearchTree.contains(7)).to.equal(true);
-    expect(binarySearchTree.contains(8)).to.equal(false);
+    expect(binarySearchTree.contains(20)).to.equal(true);
+    expect(binarySearchTree.contains(6)).to.equal(true);
+    expect(binarySearchTree.contains(10)).to.equal(true);
+    expect(binarySearchTree.contains(25)).to.equal(true);
+
+    expect(binarySearchTree.contains(28)).to.equal(false);
   });
 
   it('should execute a callback on every value in a tree using "depthFirstLog"', function(){
     var array = [];
     var func = function(value){ array.push(value); };
-    binarySearchTree.insert(2);
     binarySearchTree.insert(3);
+    binarySearchTree.insert(8);
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(4);
+    binarySearchTree.insert(7);
+    binarySearchTree.insert(20);
+    binarySearchTree.insert(6);
+    binarySearchTree.insert(10);
+    binarySearchTree.insert(25);
     binarySearchTree.depthFirstLog(func);
     console.log(array);
-    expect(array).to.eql([5,2,3]);
+    expect(array).to.eql([5, 3, 2, 4, 8, 7, 6, 20, 10, 25]);
   });
+
 });
