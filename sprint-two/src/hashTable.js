@@ -36,6 +36,10 @@ HashTable.prototype.remove = function(k){
   var valueList = this._storage.get(i);
 
   valueList[k] = null;
+
+  if(this.checkContractionNeeded()) {
+    this.contract();
+  }
 };
 
 HashTable.prototype.hashSize = function(){
@@ -51,7 +55,7 @@ HashTable.prototype.hashSize = function(){
 };
 
 HashTable.prototype.checkExpansionNeeded = function(){
-  var ceil = Math.floor(this._limit * 0.50);
+  var ceil = Math.floor(this._limit * 0.70);
 
   return this.hashSize() >= ceil;
 };
@@ -64,11 +68,11 @@ HashTable.prototype.expand = function(){
   this._storage.each(function(e){
     for (var k in e) {
       var valueList;
-      var i = getIndexBelowMaxForKey(e, newLimit);
+      var i = getIndexBelowMaxForKey(k, newLimit);
       if(!newStorage.get(i)) {
         newStorage.set(i, {});
       }
-
+      debugger;
       valueList = newStorage.get(i);
 
       if(!valueList.hasOwnProperty(k)) {
@@ -83,9 +87,38 @@ HashTable.prototype.expand = function(){
 HashTable.prototype.checkContractionNeeded = function(){
   var minimumSize = 8;
 
-  var floor = Math.floor(this._limit * 0.25);
+  var floor = Math.floor(this._limit * 0.45);
 
   return this._limit > minimumSize ? this.hashSize() <= floor : false;
+};
+
+HashTable.prototype.contract = function(){
+  var newLimit = this._limit / 2;
+  var newStorage = makeLimitedArray(newLimit);
+
+  this._storage.each(function(e){
+    // every subobject in our currenet storage
+    for (var k in e) {
+      //for every key in the subobject
+      var valueList;
+
+      var i = getIndexBelowMaxForKey(k, newLimit);
+      if(!newStorage.get(i)) {
+        newStorage.set(i, {});
+      }
+
+      valueList = newStorage.get(i);
+
+      if(!valueList.hasOwnProperty(k)) {
+        valueList[k] = e[k];
+      }
+
+    }
+  });
+
+  this._limit = newLimit;
+  this._storage = newStorage;
+
 };
 
 /*
