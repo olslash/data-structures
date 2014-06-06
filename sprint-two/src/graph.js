@@ -30,6 +30,8 @@ Graph.prototype.removeNode = function(nodeId){
 
   delete this._nodes[nodeId];
   this._nodeCount--;
+
+  //todo break connections
 };
 
 Graph.prototype.getEdge = function(fromNodeId, toNodeId){
@@ -45,6 +47,12 @@ Graph.prototype.addEdge = function(fromNodeId, toNodeId){
 };
 
 Graph.prototype.removeEdge = function(fromNodeId, toNodeId){
+  var fromNode = this._nodes[fromNodeId];
+  var toNode = this._nodes[toNodeId];
+
+  delete fromNode.edges[toNodeId];
+  delete toNode.edges[fromNodeId];
+
 };
 
 /*
