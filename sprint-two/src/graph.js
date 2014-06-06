@@ -26,12 +26,14 @@ Graph.prototype.contains = function(nodeId){
 };
 
 Graph.prototype.removeNode = function(nodeId){
-  var temp = this._nodes[nodeId];
+  for(var key in this._nodes[nodeId].edges){
+    delete this._nodes[key].edges[nodeId];
+  }
 
   delete this._nodes[nodeId];
   this._nodeCount--;
 
-  //todo break connections
+
 };
 
 Graph.prototype.getEdge = function(fromNodeId, toNodeId){
@@ -53,6 +55,12 @@ Graph.prototype.removeEdge = function(fromNodeId, toNodeId){
   delete fromNode.edges[toNodeId];
   delete toNode.edges[fromNodeId];
 
+  if(Object.keys(fromNode.edges).length === 0) {
+    this.removeNode(fromNodeId);
+  }
+  if(Object.keys(toNode.edges).length === 0) {
+    this.removeNode(toNodeId);
+  }
 };
 
 /*
