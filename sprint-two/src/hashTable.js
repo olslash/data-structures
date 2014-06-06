@@ -15,7 +15,6 @@ HashTable.prototype.insert = function(k, v){
   if(!valueList.hasOwnProperty(k)) {
     valueList[k] = v;
   }
-  console.log(this.hashSize());
 
   if(this.checkExpansionNeeded()) {
     this.expand();
@@ -72,7 +71,6 @@ HashTable.prototype.expand = function(){
       if(!newStorage.get(i)) {
         newStorage.set(i, {});
       }
-      debugger;
       valueList = newStorage.get(i);
 
       if(!valueList.hasOwnProperty(k)) {
