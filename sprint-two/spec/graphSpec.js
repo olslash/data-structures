@@ -57,4 +57,21 @@ describe('graph', function() {
     expect(graph.contains('jacket')).to.equal(false);
   });
 
+  it('should traverse the graph, calling the passed-in function once on each node.', function(){
+    graph.addNode('apples');
+    graph.addNode('bananas');
+    graph.addNode('satsumas', 'bananas');
+    graph.addEdge('satsumas', 'apples');
+
+    var result = [];
+    graph.forEachNode(function(value){
+      result.push(value);
+    });
+
+    expect(result).to.include('apples');
+    expect(result).to.include('bananas');
+    expect(result).to.include('satsumas');
+    expect(result).not.to.include('something');
+  });
+
 });

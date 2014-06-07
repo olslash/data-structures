@@ -63,6 +63,15 @@ Graph.prototype.removeEdge = function(fromNodeId, toNodeId){
   }
 };
 
+Graph.prototype.forEachNode = function(func) {
+  for(var key in this._nodes) {
+    if(this._nodes.hasOwnProperty(key)) {
+      func(key);
+    }
+  }
+};
+
+
 /*
  * Complexity: What is the time complexity of the above functions?
  */
