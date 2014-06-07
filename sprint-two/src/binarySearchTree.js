@@ -58,9 +58,10 @@ binaryTreeMethods.breadthFirstLog = function(func) {
 
   while(queue.length > 0) {
     var currentNode = queue.shift();
-    func(currentNode.value);
-    // var args = Array.prototype.slice.call(arguments, 1);
-    // func.apply(currentNode, arguments);
+    // func(currentNode.value);
+    var args = Array.prototype.slice.call(arguments, 1);
+    args.unshift(currentNode.value);
+    func.apply(null, args);
 
     if(currentNode.left) { queue.push(currentNode.left); }
     if(currentNode.right) { queue.push(currentNode.right); }
