@@ -91,7 +91,19 @@ it('should report the correct minimum and maximum depth', function(){
     binarySearchTree.insert(6);
     binarySearchTree.insert(10);
     binarySearchTree.insert(25);
-
     expect(binarySearchTree.getDepth()).to.eql({max: 4, min: 3});
+  });
+
+  it('should return a sorted list of all values', function(){
+      binarySearchTree.insert(3);
+      binarySearchTree.insert(8);
+      binarySearchTree.insert(2);
+      binarySearchTree.insert(4);
+      binarySearchTree.insert(7);
+      binarySearchTree.insert(20);
+      binarySearchTree.insert(6);
+      binarySearchTree.insert(10);
+      binarySearchTree.insert(25);
+      expect(binarySearchTree.getSortedList()).to.eql([2,3,4,5,6,7,8,10,20,25]);
   });
 });

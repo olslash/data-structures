@@ -87,6 +87,22 @@ binaryTreeMethods.getDepth = function() {
 
   return result;
 };
+
+binaryTreeMethods.getSortedList = function() {
+  var sorted = [];
+
+  // var traverse = function () {
+  //   if(this.left) { this.left.getSortedList(); }
+  //   sorted.push(this.value);
+  //   if(this.right) { this.right.getSortedList(); }
+  // };
+
+  if(this.left) { sorted.push(this.left.getSortedList()); }
+  sorted.push(this.value);
+  if(this.right) { sorted.push(this.right.getSortedList()); }
+
+  return _.flatten(sorted);
+};
 /*
  * Complexity: What is the time complexity of the above functions?
  */
