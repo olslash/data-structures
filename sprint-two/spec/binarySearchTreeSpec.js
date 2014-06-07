@@ -78,4 +78,20 @@ describe('binarySearchTree', function() {
 
     expect(array).to.eql([5, 3, 8, 2, 4, 7, 20, 6, 10, 25]);
   });
+
+it('should report the correct minimum and maximum depth', function(){
+    var array = [];
+    var func = function(value, name){ array.push(value); };
+    binarySearchTree.insert(3);
+    binarySearchTree.insert(8);
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(4);
+    binarySearchTree.insert(7);
+    binarySearchTree.insert(20);
+    binarySearchTree.insert(6);
+    binarySearchTree.insert(10);
+    binarySearchTree.insert(25);
+
+    expect(binarySearchTree.getDepth()).to.eql({max: 4, min: 3});
+  });
 });

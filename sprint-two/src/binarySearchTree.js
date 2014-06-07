@@ -67,6 +67,26 @@ binaryTreeMethods.breadthFirstLog = function(func) {
     if(currentNode.right) { queue.push(currentNode.right); }
   }
 };
+
+binaryTreeMethods.getDepth = function() {
+  var result = {max: 1, min: 1};
+
+  var rightDepth = {max: 0, min: 0};
+  var leftDepth = rightDepth;
+
+  if(this.left === null && this.right === null) {
+    return result;
+  }
+
+  if(this.left !== null) { leftDepth = this.left.getDepth(); }
+
+  if(this.right !== null) { rightDepth = this.right.getDepth(); }
+
+  result.max = Math.max(leftDepth.max, rightDepth.max) + 1;
+  result.min = Math.min(leftDepth.min, rightDepth.min) + 1;
+
+  return result;
+};
 /*
  * Complexity: What is the time complexity of the above functions?
  */
