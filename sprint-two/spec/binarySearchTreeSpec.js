@@ -91,7 +91,10 @@ it('should report the correct minimum and maximum depth', function(){
     binarySearchTree.insert(6);
     binarySearchTree.insert(10);
     binarySearchTree.insert(25);
-    expect(binarySearchTree.getDepth()).to.eql({max: 4, min: 3});
+    binarySearchTree.insert(500);
+
+    // debugger;
+    expect(binarySearchTree.getDepth()).to.eql({max: 5, min: 3});
   });
 
   it('should return a sorted list of all values', function(){
@@ -105,5 +108,14 @@ it('should report the correct minimum and maximum depth', function(){
       binarySearchTree.insert(10);
       binarySearchTree.insert(25);
       expect(binarySearchTree.getSortedList()).to.eql([2,3,4,5,6,7,8,10,20,25]);
+  });
+
+  it('should correctly rebalance the tree', function(){
+    for(var val = 1; val <=101; val++) {
+      binarySearchTree.insert(val * 1000);
+    }
+
+    var depth = binarySearchTree.getDepth();
+    expect(depth.max > (depth.min * 2)).to.equal(false);
   });
 });

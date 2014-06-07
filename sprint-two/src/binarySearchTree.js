@@ -11,6 +11,15 @@ var makeBinarySearchTree = function(value){
 var binaryTreeMethods = {};
 
 binaryTreeMethods.insert = function(val) {
+  this._insert(val);
+
+  var depth = this.getDepth();
+  if(depth.max > (depth.min * 2)) {
+    this.rebalance();
+  }
+};
+
+binaryTreeMethods._insert = function(val) {
   var newTreeNode;
 
   if(val === this.value) { return undefined; }
@@ -18,13 +27,13 @@ binaryTreeMethods.insert = function(val) {
     if(this.left === null) {
       this.left = makeBinarySearchTree(val);
     } else {
-      this.left.insert(val);
+      this.left._insert(val);
     }
   } else if (val > this.value) {
     if(this.right === null) {
       this.right = makeBinarySearchTree(val);
     } else {
-      this.right.insert(val);
+      this.right._insert(val);
     }
   }
 };
@@ -102,6 +111,37 @@ binaryTreeMethods.getSortedList = function() {
   if(this.right) { sorted.push(this.right.getSortedList()); }
 
   return _.flatten(sorted);
+};
+
+binaryTreeMethods.rebalance = function (){
+  var sorted = this.getSortedList();
+
+  var newRoot;
+
+  var buildTree = function (sortedArr){
+    if (sortedArr.length === 0){ return; }
+    var medianIdx = Math.floor((sortedArr.length - 1)/ 2);
+    var medianVal = sortedArr[medianIdx];
+
+    if (!newRoot) {
+      newRoot = makeBinarySearchTree(medianVal);
+    } else {
+      newRoot._insert(medianVal);
+    }
+
+    buildTree(sortedArr.slice(0, medianIdx));
+    buildTree(sortedArr.slice(medianIdx + 1));
+  };
+
+  buildTree(sorted);
+
+  //Modify the node we were called on.
+  this.value = newRoot.value;
+  this.left = newRoot.left;
+  this.right = newRoot.right;
+
+  //TODO: for testing. Remove.
+  return newRoot;
 };
 /*
  * Complexity: What is the time complexity of the above functions?
