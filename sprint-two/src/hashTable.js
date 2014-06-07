@@ -60,26 +60,7 @@ HashTable.prototype.checkExpansionNeeded = function(){
 };
 
 HashTable.prototype.expand = function(){
-  // todo: REFACTOR THIS
-  var newLimit = this._limit * 2;
-  var newStorage = makeLimitedArray(newLimit);
-
-  this._storage.each(function(e){
-    for (var k in e) {
-      var valueList;
-      var i = getIndexBelowMaxForKey(k, newLimit);
-      if(!newStorage.get(i)) {
-        newStorage.set(i, {});
-      }
-      valueList = newStorage.get(i);
-
-      if(!valueList.hasOwnProperty(k)) {
-        valueList[k] = e[k];
-      }
-    }
-  });
-  this._limit = newLimit;
-  this._storage = newStorage;
+  this._resize(this._limit * 2);
 };
 
 HashTable.prototype.checkContractionNeeded = function(){
@@ -91,7 +72,10 @@ HashTable.prototype.checkContractionNeeded = function(){
 };
 
 HashTable.prototype.contract = function(){
-  var newLimit = this._limit / 2;
+    this._resize(this._limit / 2);
+};
+
+HashTable.prototype._resize = function (newLimit) {
   var newStorage = makeLimitedArray(newLimit);
 
   this._storage.each(function(e){
@@ -116,7 +100,6 @@ HashTable.prototype.contract = function(){
 
   this._limit = newLimit;
   this._storage = newStorage;
-
 };
 
 /*
