@@ -15,7 +15,7 @@ describe('trie', function() {
   describe('insert', function() {
     it('should correctly insert nodes', function() {
 
-      expect(trie.links.a.links.l.links.l.links.o.links.y.fullword)
+      expect(trie.children.a.children.l.children.l.children.o.children.y.fullword)
         .to.equal(true);
     });
   });
@@ -31,6 +31,11 @@ describe('trie', function() {
       expect(trie.find("alloy", true)).to.equal(true);
       expect(trie.find("allo", true)).to.equal(false);
       expect(trie.find("cat", true)).to.equal(false);
+    });
+
+    it('should get the closest full words to a given partial word', function() {
+      expect(trie.getClosestFullWords('all')).to.eql(['all', 'allot', 'alloy']);
+      expect(trie.getClosestFullWords('all', 2)).to.eql(['all', 'allot']);
     });
   });
 });
