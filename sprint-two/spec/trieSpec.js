@@ -25,14 +25,12 @@ describe('trie', function() {
       expect(trie.find("alloy")).to.equal(true);
       expect(trie.find("allo")).to.equal(true);
       expect(trie.find("cat")).to.equal(false);
-
     });
 
     it('should test whether a full word is in the tree', function() {
       expect(trie.find("alloy", true)).to.equal(true);
       expect(trie.find("allo", true)).to.equal(false);
       expect(trie.find("cat", true)).to.equal(false);
-
     });
   });
 });
