@@ -18,7 +18,9 @@ describe('trie', function() {
       expect(trie.links.a.links.l.links.l.links.o.links.y.fullword)
         .to.equal(true);
     });
+  });
 
+  describe('find', function() {
     it('should test whether a partial word is in the tree', function() {
       expect(trie.find("alloy")).to.equal(true);
       expect(trie.find("allo")).to.equal(true);
