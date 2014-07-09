@@ -16,14 +16,14 @@ describe('graph', function() {
 
   it('should store values as nodes that were inserted', function() {
     graph.addNode('kittens');
-    graph.contains('kittens');
-    expect(graph.contains('kittens')).to.equal(true);
+    graph.containsID('kittens');
+    expect(graph.containsID('kittens')).to.equal(true);
   });
 
   it('should remove nodes that were inserted', function() {
     graph.addNode('puppies');
     graph.removeNode('puppies');
-    expect(graph.contains('puppies')).to.equal(false);
+    expect(graph.containsID('puppies')).to.equal(false);
   });
 
   it('should automatically create an edge between two nodes if there is only one node in the graph', function() {
@@ -40,6 +40,19 @@ describe('graph', function() {
     expect(graph.getEdge('penguins', 'kittens')).to.equal(false);
   });
 
+  it('should create edges between a new node and many other nodes', function() {
+    graph.addNode('puppies');
+    graph.addNode('kittens');
+    graph.addNode('dogs', 'puppies');
+    graph.addNode('cats', ['puppies', 'kittens']);
+
+    expect(graph.getEdge('dogs', 'puppies')).to.equal(true);
+    expect(graph.getEdge('puppies', 'dogs')).to.equal(true);
+    expect(graph.getEdge('cats', 'puppies')).to.equal(true);
+    expect(graph.getEdge('cats', 'kittens')).to.equal(true);
+    expect(graph.getEdge('kittens', 'cats')).to.equal(true);
+  });
+
   it('should remove edges between nodes', function() {
     graph.addNode('apples');
     graph.addNode('bananas');
@@ -53,8 +66,8 @@ describe('graph', function() {
     graph.addNode('jacket');
     graph.addNode('hat');
     graph.removeEdge('jacket', 'hat');
-    expect(graph.contains('hat')).to.equal(false);
-    expect(graph.contains('jacket')).to.equal(false);
+    expect(graph.containsID('hat')).to.equal(false);
+    expect(graph.containsID('jacket')).to.equal(false);
   });
 
   it('should traverse the graph, calling the passed-in function once on each node.', function(){

@@ -10,14 +10,29 @@ var Node = function(){
   this.edges = {};
 };
 
-Graph.prototype.addNode = function(newNodeId, toNodeId){
-  if (this._nodeCount === 1) {
-    toNodeId = Object.keys(this._nodes)[0];
+Graph.prototype.addNode = function(newNodeId, toNodeIds){
+  // toNodeIds is an array containing nodes the new node should have edges to.
+  var count = this._nodeCount;
+  if (count === 1) {
+    // if there's only one node in the graph, the new node must connect to it.
+    toNodeIds = Object.keys(this._nodes);
+  }
+  if(!Array.isArray(toNodeIds)) {
+    // if toNodeIds is a single node not contained in an array, put it in one 
+    // for convenience.
+    
+    toNodeIds = [toNodeIds]; 
   }
   this._nodes[newNodeId] = new Node();
-  if (this._nodeCount > 0) {
-    this.addEdge(newNodeId, toNodeId);
+  
+  if (count > 0) {
+    // unless this is the first node, add edges between 
+    // this node and any specified.
+    for (var i = toNodeIds.length - 1; i >= 0; i--) {
+      this.addEdge(newNodeId, toNodeIds[i]);
+    }
   }
+  
   this._nodeCount++;
 };
 
@@ -25,9 +40,9 @@ Graph.prototype.containsID = function(nodeId){
   return this._nodes.hasOwnProperty(nodeId);
 };
 
-graph.prototype.searchDepthFirst = function() {
-  
-}
+Graph.prototype.contains = function() {
+
+};
 
 Graph.prototype.removeNode = function(nodeId){
   for(var key in this._nodes[nodeId].edges){
