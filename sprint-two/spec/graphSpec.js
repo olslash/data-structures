@@ -87,4 +87,25 @@ describe('graph', function() {
     expect(result).not.to.include('something');
   });
 
+  it('should traverse the graph with DFS, calling the passed-in function once on each node.', function() {
+    graph.addNode('hi');
+    graph.addNode('mom');
+    graph.addNode('mom2', 'hi');
+    graph.addNode('mom3', 'hi');
+    graph.addNode('mom4', 'mom2');
+    graph.addNode('mom6', ['mom3', 'mom4']);
+
+    var result = [];
+    graph.traverseDFS('mom', function(nodeId){
+      result.push(nodeId);
+    });
+
+    expect(result).to.include('hi');
+    expect(result).to.include('mom');
+    expect(result).to.include('mom2');
+    expect(result).to.include('mom3');
+    expect(result).to.include('mom4');
+    expect(result).to.include('mom6');
+  });
+
 });
