@@ -21,9 +21,13 @@ Graph.prototype.addNode = function(newNodeId, toNodeId){
   this._nodeCount++;
 };
 
-Graph.prototype.contains = function(nodeId){
+Graph.prototype.containsID = function(nodeId){
   return this._nodes.hasOwnProperty(nodeId);
 };
+
+graph.prototype.searchDepthFirst = function() {
+  
+}
 
 Graph.prototype.removeNode = function(nodeId){
   for(var key in this._nodes[nodeId].edges){
