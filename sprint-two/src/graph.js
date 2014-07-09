@@ -36,12 +36,23 @@ Graph.prototype.addNode = function(newNodeId, toNodeIds){
   this._nodeCount++;
 };
 
-Graph.prototype.containsID = function(nodeId){
+Graph.prototype.containsId = function(nodeId){
   return this._nodes.hasOwnProperty(nodeId);
 };
 
-Graph.prototype.contains = function() {
-
+Graph.prototype.traverseDFS = function(rootId, func, visited) {
+  // DFS of graph-- would be more useful for finding data IN a node.
+  visited || (visited = {});
+  if (rootId === undefined) { return; }
+  
+  func(rootId);
+  visited[rootId] = true;
+  
+  for(var adjacentNodeId in this._nodes[rootId].edges) {
+    if(!visited[adjacentNodeId]) {
+      this.traverseDFS(adjacentNodeId, func, visited);
+    }
+  }
 };
 
 Graph.prototype.removeNode = function(nodeId){
@@ -90,7 +101,15 @@ Graph.prototype.forEachNode = function(func) {
   }
 };
 
+var g = new Graph();
+g.addNode('hi');
+g.addNode('mom');
+g.addNode('mom2', 'hi');
+g.addNode('mom3', 'hi');
+g.addNode('mom4', 'mom2');
+g.addNode('mom6', ['mom3', 'mom4']);
 
+g.traverseDFS('hi', function(nodeId){console.log('visited', nodeId);});
 /*
  * Complexity: What is the time complexity of the above functions?
  */
